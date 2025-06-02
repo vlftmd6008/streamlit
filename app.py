@@ -24,7 +24,10 @@ st.write("여론조사결과는 중앙선거관리위원회의 중앙선거여�
          Simple Random Sampling(단순임의추출출)을 Without replacement(비복원추출)한 것으로 추정량을 사용하겠습니다.")
 
 st.write("## 🧐우리에게 필요한 표본 수는 얼마일까?")
-st.write("## 정재호 고생했어요")
+st.write("## 정재호 고생했어요 \
+         얼른 집 가! \
+         사랑해❤️")
+
 
 
 
