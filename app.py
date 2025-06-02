@@ -2,15 +2,19 @@ import streamlit as st
 
 from datetime import datetime
 from pytz import timezone
+import os
 
-import pandas as pd
-import matplotlib.pyplot as plt
-%matplotlib inline
+# 업데이트 시각 기록 함수
+def record_update_time(log_file="updated.txt"):
+    now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    with open(log_file, "w", encoding="utf-8") as f:
+        f.write(now)
+    return now
 
-now = datetime.now(timezone('Asia/Seoul'))
+# 업데이트 시간 기록 & 불러오기
+last_updated = record_update_time()
 
-
-st.title(f"안녕하세요👋 이 글은 {now}에 마지막으로 편집되었습니다!")
+st.title(f"안녕하세요👋 이 글은 {last_updated}에 마지막으로 편집되었습니다!")
 st.write("## 이것은 여론조사 결과로 2025년 22대 대통령 선거를 예측해보는 글입니다.")
 
 
