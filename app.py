@@ -1,7 +1,10 @@
 import streamlit as st
 
 from datetime import datetime
+from pytz import timezone
+
 now = datetime.now(timezone('Asia/Seoul'))
+
 
 st.title(f"안녕하세요👋 이 글은 {now}에 마지막으로 편집되었습니다!")
 st.write("이것은 여론조사 결과로 2025년 22대 대통령 선거를 예측해보는 글입니다.")
@@ -17,6 +20,7 @@ st.write("6월 2일 중앙선거관리위원회에 따르면 21대 대선 유권
 st.write("여론조사결과는 중앙선거관리위원회의 중앙선거여론조사심의위원회 홈페이지에서 발췌했습니다.\
          대부분의 여론조사는 무선전화면접 또는 무선ARS로 진행했으며 표본추출 방식은 성, 연령, 지역 할당 후 \
          무선 가상번호를 추출했습니니다.")
+
 
 
 
