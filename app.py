@@ -6,7 +6,7 @@ import os
 
 # 업데이트 시각 기록 함수
 def record_update_time(log_file="updated.txt"):
-    now = datetime.now(timezone('Asia/Seoul').strftime("%Y-%m-%d %H:%M:%S")
+    now = datetime.now(timezone('Asia/Seoul')).strftime("%Y-%m-%d %H:%M:%S")
     with open(log_file, "w", encoding="utf-8") as f:
         f.write(now)
     return now
@@ -38,6 +38,7 @@ st.write(f"유한한 모집단이고 크기가 매우 크므로 우리가 필요
          여기서 z는 신뢰수준에 해당하는 z값 (예: 95% → z≈1.96)이고,")
 st.write("p는 특성의 비율 (예: 성공 확률, 보통 보수적으로 0.5 사용), q는 1−p, 즉 실패 확률,")
 st.write("B는 허용오차 (margin of error) (예: 0.05 = ±5%) 를 나타냅니다.")
+
 
 
 
