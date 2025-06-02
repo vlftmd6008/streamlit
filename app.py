@@ -3,7 +3,9 @@ import streamlit as st
 from datetime import datetime
 from pytz import timezone
 
-
+import pandas as pd
+import matplotlib.pyplot as plt
+%matplotlib inline
 
 now = datetime.now(timezone('Asia/Seoul'))
 
@@ -25,14 +27,15 @@ st.write("여론조사결과는 중앙선거관리위원회의 중앙선거여�
          무선 가상번호를 추출했습니다. 사후층화를 했지만 성별, 연령별, 지역별로 가중값을 부여했으니 \
          Simple Random Sampling(단순임의추출출)을 Without replacement(비복원추출)한 것으로 추정량을 사용하겠습니다.")
 
+n = z^2pq/B^2
+
 st.write("## 🧐우리에게 필요한 표본 수는 얼마일까?")
-st.write("유한한 모집단이고 크기가 매우 크므로 우리가 필요한 표본 크기 n은 n=z^2pq/B^2로 계산할 수 있습니다. \
+st.write(f"유한한 모집단이고 크기가 매우 크므로 우리가 필요한 표본 크기 n은 n= {n}로 계산할 수 있습니다. \
          여기서 z는 신뢰수준에 해당하는 z값 (예: 95% → z≈1.96)이고,")
 st.write("p는 특성의 비율 (예: 성공 확률, 보통 보수적으로 0.5 사용), q는 1−p, 즉 실패 확률,")
 st.write("B는 허용오차 (margin of error) (예: 0.05 = ±5%) 를 나타냅니다.")
 
 
-st.write("김재원은 무무를 좋아해요요")
 
 
 
