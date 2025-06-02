@@ -152,3 +152,4 @@ if uploaded_file:
             st.metric(label=f"{name}", value=f"{support:.1f}%")
         else:
             st.warning(f"'{name}' 후보의 지지율을 찾을 수 없습니다.")
+            
