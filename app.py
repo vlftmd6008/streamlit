@@ -111,7 +111,9 @@ st.write("p = 0.5       (여기서 p는 특정 정당 지지율이나 특정 후
 st.write("B = 0.031")
 st.write("을 대입하면")
 
-st.write("필요한 표본 수 n ≈ 99,998명") 
+n = 99998
+st.markdown(f"<h3 style='color:darkorange;'>📊 필요한 표본 수 n ≈ {n:,}명</h3>", unsafe_allow_html=True)
+
 st.write("즉, **10만명 이상**의 사람들이 여론조사에 응답해야 95% 신뢰수준에 ±3.1%를 \
          허용 오차로, 표본이 전체 유권자를 대표한다고 할 수 있습니다.")
 
@@ -121,7 +123,16 @@ st.write("작은 표본을 사용하면 어떤 특성(예: 연령, 성별, 지�
          여른조사기관들은 사후 층화를 하여 가중치를 조정합니다.")
 st.write("그러므로 우리는 비교적 적은 표본 수에도 층화 추출을 이용하여 표본의 대표성과 신뢰성을 얻을 수 있습니다.")
 
-st.write("그럼 각 여론조사결과에 허용 오차를 적용해보면")
+st.write("현재 여론조사 결과들은 오차범위를 감안해도 이재명 후보가 김문수 후보보다 지지율이 높기 때문에")
+st.markdown(
+    """
+    <p style='font-size:24px;'>
+        작은 표본 수들에도 불구하고 조사 결과처럼 
+        <span style='color:blue; font-weight:bold;'>이재명 후보</span>가 당선될 것을 예상합니다!
+    </p>
+    """,
+    unsafe_allow_html=True
+)
 
 
 
