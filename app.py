@@ -123,3 +123,44 @@ st.write("그러므로 우리는 비교적 적은 표본 수에도 층화 추출
 
 st.write("그럼 각 여론조사결과에 허용 오차를 적용해보면")
 
+!pip install pdfplumber
+
+
+import pdfplumber
+import re
+
+# 95% 신뢰수준 → z = 1.96
+Z = 1.96
+
+def extract_candidate_support(text, candidate_name):
+    """텍스트에서 특정 후보 지지율(%) 추출"""
+    pattern = rf"{candidate_name}[^\d]*(\d{{1,2}}(?:\.\d+)?)\s*%"
+    match = re.search(pattern, text)
+    return float(match.group(1)) if match else None
+
+def calculate_margin(p, n=1000, z=Z):
+    """표본 비율 p에 대한 오차범위 계산"""
+    p /= 100  # 백분율 → 비율
+    B = z * ((p * (1 - p)) / n) ** 0.5
+    return round(B * 100, 2)  # 다시 백분율로
+
+# Streamlit UI
+st.title("🗳️ 여론조사 지지율 추출기")
+uploaded_file = st.file_uploader("PDF 파일을 업로드하세요", type="pdf")
+
+if uploaded_file:
+    with pdfplumber.open(uploaded_file) as pdf:
+        full_text = ""
+        for page in pdf.pages:
+            full_text += page.extract_text()
+
+    candidates = ["이재명", "김문수", "이준석"]
+    st.header("📊 지지율 및 오차범위 (±)")
+
+    for name in candidates:
+        support = extract_candidate_support(full_text, name)
+        if support:
+            margin = calculate_margin(support)
+            st.metric(label=f"{name}", value=f"{support:.1f}%", delta=f"±{margin:.1f}%")
+        else:
+            st.warning(f"'{name}' 후보의 지지율 정보를 찾을 수 없습니다.")
