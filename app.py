@@ -2,8 +2,6 @@ import streamlit as st
 import os
 from datetime import datetime, timedelta, timezone
 
-import pdfplumber
-import re
 
 KST = timezone(timedelta(hours=9))
 
@@ -58,7 +56,7 @@ else:
     st.error("🚫 app.py 파일을 찾을 수 없습니다. 경로를 확인해주세요.")
 
 
-st.write("## 이것은 여론조사 결과로 2025년 22대 대통령 선거를 예측해보는 글입니다.")
+st.write("## 이것은 여론조사 결과로 2025년 21대 대통령 선거를 예측해보는 글입니다.")
 
 name = st.text_input("이름을 입력하세요:")
 if name:
@@ -124,3 +122,4 @@ st.write("작은 표본을 사용하면 어떤 특성(예: 연령, 성별, 지�
 st.write("그러므로 우리는 비교적 적은 표본 수에도 층화 추출을 이용하여 표본의 대표성과 신뢰성을 얻을 수 있습니다.")
 
 st.write("그럼 각 여론조사결과에 허용 오차를 적용해보면")
+
