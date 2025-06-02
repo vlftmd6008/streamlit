@@ -2,6 +2,9 @@ import streamlit as st
 import os
 from datetime import datetime, timedelta, timezone
 
+import pdfplumber
+import re
+
 KST = timezone(timedelta(hours=9))
 
 # 절대 경로가 확실하면 직접 지정 (파일 위치 확인 후 수정)
@@ -111,10 +114,41 @@ st.write("B = 0.031")
 st.write("을 대입하면")
 
 st.write("필요한 표본 수 n ≈ 99,998명") 
-st.write("즉, 10만명 이상의 사람들이 여론조사에 응답해야 95% 신뢰수준에 ±3.1%를 \
+st.write("즉, **10만명 이상**의 사람들이 여론조사에 응답해야 95% 신뢰수준에 ±3.1%를 \
          허용 오차로, 표본이 전체 유권자를 대표한다고 할 수 있습니다.")
 
 st.write("하지만 현실적으로 전화를 통해 이루어지는 여론조사는 응답률이 낮기 때문에 표본 수가 만 명을 넘기기 힘듭니다.")
 st.write("작은 표본을 사용하면 어떤 특성(예: 연령, 성별, 지역 등)에 따라 응답 경향이 다를 수 있습니다. \
          또한, 여론조사나 표본조사에서 응답자의 인구 비율이 모집단의 인구 비율과 다르므로 결과의 대표성을 높이기 위해 \
          여른조사기관들은 사후 층화를 하여 가중치를 조정합니다.")
+st.write("그러므로 우리는 비교적 적은 표본 수에도 층화 추출을 이용하여 표본의 대표성과 신뢰성을 얻을 수 있습니다.")
+
+st.write("그럼 각 여론조사결과에 허용 오차를 적용해보면")
+
+def extract_candidate_support(text, candidate_name):
+    """텍스트에서 특정 후보 지지율(%) 추출"""
+    pattern = rf"{candidate_name}[^\d]*(\d{{1,2}}(?:\.\d+)?)\s*%"
+    match = re.search(pattern, text)
+    return float(match.group(1)) if match else None
+
+# Streamlit UI
+st.title("🗳️ 여론조사 지지율 추출기")
+uploaded_file = st.file_uploader("PDF 파일을 업로드하세요", type="pdf")
+
+if uploaded_file:
+    with pdfplumber.open(uploaded_file) as pdf:
+        full_text = ""
+        for page in pdf.pages:
+            text = page.extract_text()
+            if text:
+                full_text += text
+
+    candidates = ["이재명", "김문수", "이준석"]
+    st.header("📊 지지율 결과")
+
+    for name in candidates:
+        support = extract_candidate_support(full_text, name)
+        if support is not None:
+            st.metric(label=f"{name}", value=f"{support:.1f}%")
+        else:
+            st.warning(f"'{name}' 후보의 지지율을 찾을 수 없습니다.")
