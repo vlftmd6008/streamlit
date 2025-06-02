@@ -123,7 +123,9 @@ st.write("그러므로 우리는 비교적 적은 표본 수에도 층화 추출
 
 st.write("그럼 각 여론조사결과에 허용 오차를 적용해보면")
 
-!pip install pdfplumber
+import sys
+!{sys.executable} -m pip install pdfplumber
+
 
 
 import pdfplumber
@@ -164,4 +166,4 @@ if uploaded_file:
             st.metric(label=f"{name}", value=f"{support:.1f}%", delta=f"±{margin:.1f}%")
         else:
             st.warning(f"'{name}' 후보의 지지율 정보를 찾을 수 없습니다.")
-            
+
