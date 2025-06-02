@@ -6,7 +6,7 @@ import os
 
 # 업데이트 시각 기록 함수
 def record_update_time(log_file="updated.txt"):
-    now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    now = datetime.now(timezone('Asia/Seoul').strftime("%Y-%m-%d %H:%M:%S")
     with open(log_file, "w", encoding="utf-8") as f:
         f.write(now)
     return now
