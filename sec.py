@@ -123,43 +123,36 @@ st.write("작은 표본을 사용하면 어떤 특성(예: 연령, 성별, 지�
          여른조사기관들은 사후 층화를 하여 가중치를 조정합니다.")
 st.write("그러므로 우리는 비교적 적은 표본 수에도 층화 추출을 이용하여 표본의 대표성과 신뢰성을 얻을 수 있습니다.")
 
-import pdfplumber
+import fitz  # PyMuPDF
 import re
 
-# 95% 신뢰수준 → z = 1.96
-Z = 1.96
+# PDF 파일 경로
+pdf_path = "결과표_2025년_JTBC_5차_정치사회_현안_여론조사_20250527_v2.pdf"
 
-def extract_candidate_support(text, candidate_name):
-    """텍스트에서 특정 후보 지지율(%) 추출"""
-    pattern = rf"{candidate_name}[^\d]*(\d{{1,2}}(?:\.\d+)?)\s*%"
-    match = re.search(pattern, text)
-    return float(match.group(1)) if match else None
+# 후보 이름과 지지율을 저장할 딕셔너리
+candidates = {
+    "이재명": None,
+    "김문수": None,
+    "이준석": None
+}
 
-def calculate_margin(p, n=1000, z=Z):
-    """표본 비율 p에 대한 오차범위 계산"""
-    p /= 100  # 백분율 → 비율
-    B = z * ((p * (1 - p)) / n) ** 0.5
-    return round(B * 100, 2)  # 다시 백분율로
+# PDF에서 텍스트 추출
+with fitz.open(pdf_path) as doc:
+    text = ""
+    for page in doc:
+        text += page.get_text()
 
-# Streamlit UI
-st.title("🗳️ 여론조사 지지율 추출기")
-uploaded_file = st.file_uploader("PDF 파일을 업로드하세요", type="pdf")
+# 정규표현식으로 지지율 추출 (예: 이재명 33.3%)
+for name in candidates:
+    match = re.search(rf"{name}[\s:：\-]*([\d\.]+)%", text)
+    if match:
+        candidates[name] = float(match.group(1))
 
-if uploaded_file:
-    with pdfplumber.open(uploaded_file) as pdf:
-        full_text = ""
-        for page in pdf.pages:
-            full_text += page.extract_text()
+# Streamlit 화면 출력
+st.title("대통령 선거 지지율 (2025 JTBC 5차 여론조사)")
 
-    candidates = ["이재명", "김문수", "이준석"]
-    st.header("📊 지지율 및 오차범위 (±)")
-
-    for name in candidates:
-        support = extract_candidate_support(full_text, name)
-        if support:
-            margin = calculate_margin(support)
-            st.metric(label=f"{name}", value=f"{support:.1f}%", delta=f"±{margin:.1f}%")
-        else:
-            st.warning(f"'{name}' 후보의 지지율 정보를 찾을 수 없습니다.")
-
+# 표 형태로 출력
+st.table([
+    {"후보": name, "지지율(%)": candidates[name]} for name in candidates
+])
 
