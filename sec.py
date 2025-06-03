@@ -162,3 +162,4 @@ if uploaded_file:
         else:
             st.warning(f"'{name}' 후보의 지지율 정보를 찾을 수 없습니다.")
 
+
