@@ -156,3 +156,4 @@ st.table([
     {"후보": name, "지지율(%)": candidates[name]} for name in candidates
 ])
 
+
