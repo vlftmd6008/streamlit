@@ -126,6 +126,10 @@ st.write("그러므로 우리는 비교적 적은 표본 수에도 층화 추출
 import fitz  # PyMuPDF
 import re
 
+import sys
+print(sys.path)
+
+
 # PDF 파일 경로
 pdf_path = "결과표_2025년_JTBC_5차_정치사회_현안_여론조사_20250527_v2.pdf"
 
@@ -155,5 +159,6 @@ st.title("대통령 선거 지지율 (2025 JTBC 5차 여론조사)")
 st.table([
     {"후보": name, "지지율(%)": candidates[name]} for name in candidates
 ])
+
 
 
